@@ -100,7 +100,7 @@ class CountdownController extends Controller
     public function loadData()
     {
         $data = Countdown::orderBy('id', 'desc')->first();
-        $content = '{"data": '.$data.'}';
+        $content = '{"data": '.$data.',"message":"success"}';
         return response($content, 200)
         ->header('Content-Type', 'application/json');
     }
