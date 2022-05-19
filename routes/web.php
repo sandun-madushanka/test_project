@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CountdownController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/home', function () {
+//     return view('home');
+// });
+
+Route::get('/', [CountdownController::class, 'index'])->name('home');
+Route::get('/home', [CountdownController::class, 'index'])->name('home');
+Route::post('/home/countdown', [CountdownController::class, 'store']);

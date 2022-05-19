@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Countdown;
 use Illuminate\Http\Request;
-
 class CountdownController extends Controller
 {
     /**
@@ -14,7 +13,10 @@ class CountdownController extends Controller
      */
     public function index()
     {
-        //
+        $countdown = Countdown::orderBy('id', 'desc')->first();
+        // dd($countdown);
+        // dd($countdown);
+        return view('home', compact(['countdown']));
     }
 
     /**
@@ -35,7 +37,19 @@ class CountdownController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $countdown = Countdown::orderBy('id', 'desc')->first();
+        if($countdown == null){
+
+        Countdown::create([
+            'time' => $request->countdown,
+        ]);
+        }else{
+            $countdown->time = $request->input('countdown');
+
+            $countdown->save();
+        }
+
+        return redirect(route('home', compact(['countdown'])));
     }
 
     /**
@@ -81,5 +95,13 @@ class CountdownController extends Controller
     public function destroy(Countdown $countdown)
     {
         //
+    }
+
+    public function loadData()
+    {
+        $data = Countdown::orderBy('id', 'desc')->first();
+        $content = '{"data": '.$data.'}';
+        return response($content, 200)
+        ->header('Content-Type', 'application/json');
     }
 }
